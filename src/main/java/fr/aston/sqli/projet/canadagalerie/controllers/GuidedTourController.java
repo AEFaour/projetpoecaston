@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.aston.sqli.projet.canadagalerie.models.GuidedTour;
+import fr.aston.sqli.projet.canadagalerie.models.sql.GuidedTour;
 import fr.aston.sqli.projet.canadagalerie.services.GuidedTourService;
 
 @RestController

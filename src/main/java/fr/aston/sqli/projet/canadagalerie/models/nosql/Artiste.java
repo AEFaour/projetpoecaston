@@ -1,4 +1,4 @@
-package fr.aston.sqli.projet.canadagalerie.models;
+package fr.aston.sqli.projet.canadagalerie.models.nosql;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

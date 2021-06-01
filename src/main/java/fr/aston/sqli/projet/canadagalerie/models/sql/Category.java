@@ -1,4 +1,4 @@
-package fr.aston.sqli.projet.canadagalerie.models;
+package fr.aston.sqli.projet.canadagalerie.models.sql;
 
 public enum Category {
 	ADMIN, VISITOR, GUIDE;

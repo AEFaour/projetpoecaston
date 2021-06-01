@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IGuidedTourRepository;
-
-import fr.aston.sqli.projet.canadagalerie.models.GuidedTour;
+import fr.aston.sqli.projet.canadagalerie.models.sql.GuidedTour;
 
 @Service
 public class GuidedTourService {

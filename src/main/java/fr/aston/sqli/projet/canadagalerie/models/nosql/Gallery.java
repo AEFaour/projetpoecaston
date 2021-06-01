@@ -1,4 +1,4 @@
-package fr.aston.sqli.projet.canadagalerie.models;
+package fr.aston.sqli.projet.canadagalerie.models.nosql;
 
 import java.util.List;
 

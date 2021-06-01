@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IGalleryRepository;
-import fr.aston.sqli.projet.canadagalerie.models.Gallery;
+import fr.aston.sqli.projet.canadagalerie.models.nosql.Gallery;
 
 @RestController
 public class GalleryController {
