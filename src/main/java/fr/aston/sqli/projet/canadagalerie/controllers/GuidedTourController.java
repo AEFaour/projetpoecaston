@@ -26,6 +26,6 @@ public class GuidedTourController {
 		guidedTourService.saveOrUpdate(guidedTour);
 		return guidedTour.getId();
 	}
-	//to be contin
+	//to be continued
 
 }
