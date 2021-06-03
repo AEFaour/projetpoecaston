@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IGalleryRepository;
@@ -22,10 +19,28 @@ public class GalleryService {
 		return galleryRepository.findAll();
 	}
 	
-	public Optional<Gallery>  findWorkByTitre(String titre) {
+	public Gallery  findWorkByTitre(String titre) throws Exception {
 		
-		List<Gallery> works = galleryRepository.findWorkByTitre(titre);
-		return Optional.of(works.get(0));
+//		List<Gallery> works = galleryRepository.findByTitre(titre);
+//		return Optional.of(works.get(0));
+		
+		Optional<Gallery> resu = Optional.ofNullable(this.galleryRepository.findByTitre(titre).get(0));
+		
+		if(resu.isPresent()) {
+			Gallery g = resu.get();
+			return g;
+		}
+		throw new Exception("L'Oeuvre d'art : " + titre + " est introuvable");
 	}
+	
+	/*public Exploiter findById(Long id) throws Exception{
+	
+		Optional<Exploiter> resu  = this.exploiterRepository.findById(id);
+		if(resu.isPresent()) {
+			Exploiter ex = resu.get();
+			return ex;
+		}
+		throw new Exception("L'Utilisateur " + id + " est introuvable");
+	}*/
 
 }

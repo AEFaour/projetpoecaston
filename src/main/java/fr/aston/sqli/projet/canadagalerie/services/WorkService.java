@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IWorkRepository;
-import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Work;
 
 @Service
@@ -19,10 +18,16 @@ public class WorkService {
 	public List<Work> findAll() {
 		return (List<Work>) workRepository.findAll();
 	}
-
-	public Optional<Work> findById(Long id){
+	
+	public Work findById(Long id) throws Exception{
 		
-		return workRepository.findById(id);
+		Optional<Work> resu  = this.workRepository.findById(id);
+		
+		if(resu.isPresent()) {
+			Work w = resu.get();
+			return w;
+		}
+		throw new Exception("L'oeuvre d'art " + id + " est introuvable");
 	}
 	
 	public void saveOrUpdate(Work work) {
@@ -31,8 +36,13 @@ public class WorkService {
 
 	}
 
-	public void deleteWorkById(Long id) {
+	public void deleteWorkById(Long id)  throws Exception{
 		
-		workRepository.deleteById(id);
+		try {
+			workRepository.deleteById(id);
+		} catch (Exception e) {
+			throw new Exception("L'oeuvre d'art " + id + " est introuvable");
+		}
+		
 	}
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IArtistRepository;
-import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Artist;
 
 @Service
@@ -20,10 +19,18 @@ public class ArtistService {
 		return (List<Artist>) artistRepository.findAll();
 	}
 
-	public Optional<Artist> findById(Long id){
+	public Artist findById(Long id) throws Exception{
 		
-		return artistRepository.findById(id);
+		Optional<Artist> resu =  this.artistRepository.findById(id);
+		
+		if(resu.isPresent()) {
+			Artist ar = resu.get();
+			return ar;
+		}
+
+		throw new Exception("L'Artiste " + id + " est introuvable");
 	}
+	
 	
 	public void saveOrUpdate(Artist artist) {
 
@@ -31,8 +38,12 @@ public class ArtistService {
 
 	}
 
-	public void deleteArtistById(Long id) {
+	public void deleteArtistById(Long id) throws Exception {
+		try {
+			artistRepository.deleteById(id);
+		} catch (Exception e) {
+			throw new Exception("L'Artiste " + id + " est introuvable");
+		}
 		
-		artistRepository.deleteById(id);
 	}
 }
