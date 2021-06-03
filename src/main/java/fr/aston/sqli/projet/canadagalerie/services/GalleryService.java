@@ -22,10 +22,10 @@ public class GalleryService {
 		return galleryRepository.findAll();
 	}
 	
-//	public List<Gallery>  findWorkByTitre(String titre) {
-//		
-//		List<Gallery> works = galleryRepository.findWorkByTitre(titre);
-//		return works;
-//	}
+	public Optional<Gallery>  findWorkByTitre(String titre) {
+		
+		List<Gallery> works = galleryRepository.findWorkByTitre(titre);
+		return Optional.of(works.get(0));
+	}
 
 }

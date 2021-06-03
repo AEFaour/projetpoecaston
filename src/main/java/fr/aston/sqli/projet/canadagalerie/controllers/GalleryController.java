@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +33,11 @@ public class GalleryController {
 		//return galleryRepository.findAll();
 	}
 	
-//	@RequestMapping(value = "/api/exploiters/{titre}", method = RequestMethod.GET)
-//	public Optional<Gallery> findGalleryByTitre( String titre) {
-//		return Optional.of(galleryService.findWorkByTitre(titre).get(0));
-//	}
-//	
+	@RequestMapping(value = "/api/gallery/works/{titre}", method = RequestMethod.GET)
+	public Optional<Gallery> findGalleryByTitre(@PathVariable("titre") String titre) {
+		return galleryService.findWorkByTitre(titre);
+	}
+	
 	
 
 }
