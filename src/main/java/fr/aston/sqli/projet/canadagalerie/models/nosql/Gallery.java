@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -37,6 +38,7 @@ public class Gallery {
 	@Field(value= "dimensions")
 	private String dimensions; 
 	@Field(value= "artistes")
+	@DBRef
 	private List<Artiste> artistes;
 	@Field(value= "image")
 	private String image; 
