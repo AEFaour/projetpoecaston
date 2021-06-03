@@ -14,18 +14,15 @@ import fr.aston.sqli.projet.canadagalerie.models.nosql.Gallery;
 
 @Service
 public class GalleryService {
-	
+
 	@Autowired
 	private IGalleryRepository galleryRepository;
-	
-	public List<Gallery> findAllWorks(){
+
+	public List<Gallery> findAllWorks() {
 		return galleryRepository.findAll();
 	}
-	
-//	public List<Gallery>  findWorkByTitre(String titre) {
-//		
-//		List<Gallery> works = galleryRepository.findWorkByTitre(titre);
-//		return works;
-//	}
 
+	public Gallery findWorkByTitre(String titre) {
+		return galleryRepository.findByTitre(titre).get(0);
+	}
 }

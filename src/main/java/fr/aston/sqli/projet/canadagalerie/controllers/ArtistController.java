@@ -15,42 +15,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.aston.sqli.projet.canadagalerie.models.sql.Exploiter;
-import fr.aston.sqli.projet.canadagalerie.models.sql.GuidedTour;
-import fr.aston.sqli.projet.canadagalerie.services.GuidedTourService;
+import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
+import fr.aston.sqli.projet.canadagalerie.models.sql.Artist;
+import fr.aston.sqli.projet.canadagalerie.services.ArtistService;
 
 @RestController
-@RequestMapping("/api/guidedtours")
-public class GuidedTourController {
+@RequestMapping("/api/artists")
+public class ArtistController {
 
 	@Autowired
-	private GuidedTourService guidedTourService;
+	private ArtistService artistService;
 
 	@GetMapping
-	public ResponseEntity<List<GuidedTour>> findAllGuidedTours() {
-		List<GuidedTour> works = this.guidedTourService.findAll();
-		return new ResponseEntity<>(works, HttpStatus.OK);
+	public ResponseEntity<List<Artist>> findAllArtists() {
+		List<Artist> artists = this.artistService.findAll();
+		return new ResponseEntity<>(artists, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<GuidedTour> getGuidedTourById(@PathVariable("id") Long id) {
+	public ResponseEntity<Artist> getArtistById(@PathVariable("id") Long id) {
 		try {
-			return new ResponseEntity<>(this.guidedTourService.findById(id), HttpStatus.OK);
+			return new ResponseEntity<>(this.artistService.findById(id), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@PostMapping
-	public ResponseEntity<GuidedTour> addOrUpdateGuidedTour(@RequestBody GuidedTour guidedTour) {
-		GuidedTour newTour = this.guidedTourService.saveOrUpdate(guidedTour);
-		return new ResponseEntity<>(newTour, HttpStatus.ACCEPTED);
+	public ResponseEntity<Artist> addOrUpdateArtist(@RequestBody Artist artist) {
+		Artist newArtist = this.artistService.saveOrUpdate(artist);
+		return new ResponseEntity<>(newArtist, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteGuidedTour(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteArtist(@PathVariable("id") Long id) {
 		try {
-			this.guidedTourService.deleteGuidedTourById(id);
+			this.artistService.deleteArtistById(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
