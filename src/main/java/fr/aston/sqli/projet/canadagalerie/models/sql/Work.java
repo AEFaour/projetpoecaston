@@ -57,7 +57,7 @@ public class Work implements Serializable {
 	@Column(name = "dimensions")
 	private String dimensions; 
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private List<Artist> artists;
 
 	@Column(name = "image")

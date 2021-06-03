@@ -41,7 +41,7 @@ public class GuidedTour implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private Set<Exploiter> exploiters;
 	
 	@JsonbDateFormat(locale = "fr_FR", value = "dd-MM-yyyy")
