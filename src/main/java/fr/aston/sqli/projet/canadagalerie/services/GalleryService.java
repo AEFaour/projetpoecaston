@@ -33,14 +33,5 @@ public class GalleryService {
 		throw new Exception("L'Oeuvre d'art : " + titre + " est introuvable");
 	}
 	
-	/*public Exploiter findById(Long id) throws Exception{
-	
-		Optional<Exploiter> resu  = this.exploiterRepository.findById(id);
-		if(resu.isPresent()) {
-			Exploiter ex = resu.get();
-			return ex;
-		}
-		throw new Exception("L'Utilisateur " + id + " est introuvable");
-	}*/
 
 }

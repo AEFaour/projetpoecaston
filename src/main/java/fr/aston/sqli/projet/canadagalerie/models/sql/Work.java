@@ -40,7 +40,7 @@ public class Work implements Serializable {
 	@Column(name = "code")
 	private String code;
 	
-	@Column(name = "titre")
+	@Column(name = "titre", columnDefinition="TEXT")
 	private String titre;
 	
 	@Column(name = "collection")
@@ -49,7 +49,7 @@ public class Work implements Serializable {
 	@Column(name = "culture")
 	private String culture; 
 	
-	@Column(name = "description")
+	@Column(name = "description", columnDefinition="TEXT")
 	private String description;
 	
 	@Column(name = "dimensions")

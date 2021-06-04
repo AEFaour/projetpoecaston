@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.aston.sqli.projet.canadagalerie.models.sql.Work;
@@ -53,6 +54,18 @@ public class WorkController {
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("{'msg': 'probleme'}");
 		}
+	}
+	
+	@RequestMapping(value = "/api/works/import/", method = RequestMethod.POST)
+	public ResponseEntity<?> importWorkFromGallery(@RequestParam("titre") String titre){
+		
+		try {
+			this.workService.transferFromNoSQLToSQL(titre);
+			return ResponseEntity.ok().body("L'oeuvre d'art '" + titre + "' a été importé");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("{'msg': 'probleme'}");
+		}
+		
 	}
 
 }
