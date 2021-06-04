@@ -22,16 +22,16 @@ import fr.aston.sqli.projet.canadagalerie.services.WorkService;
 @RestController
 @RequestMapping("/api/works")
 public class WorkController {
-	
+
 	@Autowired
 	private WorkService workService;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Work>> findAllWorks() {
 		List<Work> works = this.workService.findAll();
 		return new ResponseEntity<>(works, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Work> getWorkById(@PathVariable("id") Long id) {
 		try {
@@ -40,13 +40,13 @@ public class WorkController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Work> addOrUpdateWork(@RequestBody Work work) {
 		Work newWork = this.workService.saveOrUpdate(work);
 		return new ResponseEntity<>(newWork, HttpStatus.ACCEPTED);
 	}
-	
+
 	@DeleteMapping
 	public ResponseEntity<?> deleteArtist(@PathVariable("id") Long id) {
 		try {
@@ -55,6 +55,20 @@ public class WorkController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@PostMapping("/import/{titre}")
+	public ResponseEntity<Work> importWorkFromGallery(@PathVariable("titre") String titre) {
+
+		try {
+			Work addedWork = this.workService.transferFromNoSQLToSQL(titre);
+			System.out.println(addedWork);
+			return new ResponseEntity<>(addedWork, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+
 	}
 
 }

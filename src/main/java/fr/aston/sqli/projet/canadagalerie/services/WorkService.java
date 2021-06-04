@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.aston.sqli.projet.canadagalerie.dao.IGalleryRepository;
 import fr.aston.sqli.projet.canadagalerie.dao.IWorkRepository;
+import fr.aston.sqli.projet.canadagalerie.models.nosql.Gallery;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Work;
 
@@ -15,6 +17,9 @@ public class WorkService {
 
 	@Autowired
 	private IWorkRepository workRepository;
+
+	@Autowired
+	private IGalleryRepository galleryRepository;
 
 	public List<Work> findAll() {
 		return (List<Work>) workRepository.findAll();
@@ -41,4 +46,23 @@ public class WorkService {
 			throw new Exception();
 		}
 	}
+
+	public Work transferFromNoSQLToSQL(String titre) {
+
+		Gallery g = galleryRepository.findByTitre(titre).get(0);
+		Work w = new Work();
+		
+		w.setCode(g.getId());
+		w.setTitre(titre);
+		w.setCollection(g.getCollection());
+		w.setCulture(g.getCulture());
+		w.setDescription(g.getDescription());
+		w.setDimensions(g.getDimensions());
+		w.setImage(g.getImage());
+		w.setDateProduction(g.getDateProduction());
+		w.setMateriaux(g.getMateriaux());
+
+		return workRepository.save(w);
+	}
+
 }
