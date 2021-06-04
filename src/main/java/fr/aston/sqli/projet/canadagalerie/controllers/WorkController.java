@@ -47,8 +47,8 @@ public class WorkController {
 		return new ResponseEntity<>(newWork, HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping
-	public ResponseEntity<?> deleteArtist(@PathVariable("id") Long id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteWork(@PathVariable("id") Long id) {
 		try {
 			this.workService.deleteWorkById(id);
 			return new ResponseEntity<>(HttpStatus.OK);

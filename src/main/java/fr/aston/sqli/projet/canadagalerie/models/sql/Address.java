@@ -47,6 +47,9 @@ public class Address implements Serializable {
 	@Column(name = "zip")
 	private String zip;
 	
+	@Column(name = "city")
+	private String city;
+	
 	/*@OneToMany(cascade = CascadeType.ALL)
 	private Set<Exploiter> exploiters;*/
 

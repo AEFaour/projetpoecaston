@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IArtistRepository;
+import fr.aston.sqli.projet.canadagalerie.exceptions.NotFoundWithSuchParameterException;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Artist;
 
@@ -25,18 +26,20 @@ public class ArtistService {
 		if (artist.isPresent()) {
 			return artist.get();
 		}
-		throw new Exception();
+		throw new NotFoundWithSuchParameterException(
+				"Entity does not exist with id = " + id + " => className: " + getClass().getSimpleName());
 	}
 
 	public Artist saveOrUpdate(Artist artist) {
-			return artistRepository.save(artist);
+		return artistRepository.save(artist);
 	}
 
 	public void deleteArtistById(Long id) throws Exception {
 		try {
 			artistRepository.deleteById(id);
 		} catch (Exception e) {
-			throw new Exception();
+			throw new NotFoundWithSuchParameterException(
+					"Entity does not exist with id = " + id + " => className: " + getClass().getSimpleName());
 		}
 	}
 }

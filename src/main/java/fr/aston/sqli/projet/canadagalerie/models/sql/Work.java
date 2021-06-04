@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import fr.aston.sqli.projet.canadagalerie.models.nosql.Artiste;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,7 +60,7 @@ public class Work implements Serializable {
 	@Column(name = "dimensions")
 	private String dimensions; 
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private List<Artist> artists;
 
 	@Column(name = "image")

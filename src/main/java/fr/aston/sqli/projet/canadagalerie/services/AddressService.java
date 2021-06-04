@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import fr.aston.sqli.projet.canadagalerie.dao.IAddressRepository;
+import fr.aston.sqli.projet.canadagalerie.exceptions.NotFoundWithSuchParameterException;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 
 @Service
@@ -26,7 +27,8 @@ public class AddressService {
 		if (adress.isPresent()) {
 			return adress.get();
 		}
-		throw new Exception();
+		throw new NotFoundWithSuchParameterException(
+				"Entity does not exist with id = " + id + " => className: " + getClass().getSimpleName());
 	}
 
 	public Address saveOrUpdate(Address address) {
@@ -37,7 +39,8 @@ public class AddressService {
 		try {
 			addressRepository.deleteById(id);
 		} catch (Exception e) {
-			throw new Exception();
+			throw new NotFoundWithSuchParameterException(
+					"Entity does not exist with id = " + id + " => className: " + getClass().getSimpleName());
 		}
 	}
 
