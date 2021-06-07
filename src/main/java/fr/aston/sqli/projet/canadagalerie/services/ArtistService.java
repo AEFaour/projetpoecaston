@@ -32,9 +32,11 @@ public class ArtistService {
 	}
 	
 	
-	public void saveOrUpdate(Artist artist) {
+	public Artist saveOrUpdate(Artist artist) {
 
 		artistRepository.save(artist);
+		
+		return artist;
 
 	}
 

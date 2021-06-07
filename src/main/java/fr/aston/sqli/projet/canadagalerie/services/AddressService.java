@@ -12,7 +12,7 @@ import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 @Service
 public class AddressService {
 
-	@Autowired
+	@Autowired(required=true)
 	private IAddressRepository addressRepository;
 
 	public List<Address> findAll() {
@@ -31,9 +31,10 @@ public class AddressService {
 		throw new Exception("L'Adresse " + id + " est introuvable");
 	}
 
-	public void saveOrUpdate(Address address) {
+	public Address saveOrUpdate(Address address) {
 
 		addressRepository.save(address);
+		return address;
 
 	}
 

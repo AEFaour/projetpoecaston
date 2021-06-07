@@ -17,7 +17,7 @@ import lombok.ToString;
 public class Artiste {
 	
 	@Field(value = "id")
-	private int id;
+	private Long id;
 	
 	@Field(value = "nom")
 	private String nom;

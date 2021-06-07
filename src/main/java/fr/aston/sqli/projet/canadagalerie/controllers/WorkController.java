@@ -1,8 +1,13 @@
 package fr.aston.sqli.projet.canadagalerie.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,13 +18,17 @@ import fr.aston.sqli.projet.canadagalerie.models.sql.Work;
 import fr.aston.sqli.projet.canadagalerie.services.WorkService;
 
 @RestController
+@RequestMapping("/api/works")
 public class WorkController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(WorkController.class);
 	
 	@Autowired
 	private WorkService workService;
 	
-	@RequestMapping(value = "/api/works", method = RequestMethod.GET)
+	@GetMapping
 	public ResponseEntity<?> findAllWorks() {
+		LOGGER.info("GET /api/works");
 		try {
 			return ResponseEntity.ok().body(workService.findAll());
 		} catch (Exception e) {
@@ -27,8 +36,9 @@ public class WorkController {
 		}
 	}
 	
-	@RequestMapping(value = "/api/works/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> getWorkById(@PathVariable Long id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getWorkById(@PathVariable("id") Long id) {
+		LOGGER.info("GET /api/works/{}", id);
 		try {
 			return ResponseEntity.ok().body(workService.findById(id));
 		} catch (Exception e) {
@@ -36,8 +46,9 @@ public class WorkController {
 		}
 	}
 	
-	@RequestMapping(value = "/api/works", method = RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity<?> addOrUpdateWork(@RequestBody Work work) {
+		LOGGER.info("POST /api/works");
 		try {
 			this.workService.saveOrUpdate(work);
 			return ResponseEntity.ok().body(work.getId());
@@ -46,8 +57,9 @@ public class WorkController {
 		}
 	}
 	
-	@RequestMapping(value = "/api/works/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteArtist(@PathVariable Long id) throws Exception{
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteArtist(@PathVariable("id") Long id) throws Exception{
+		LOGGER.info("DELETE /api/works/{}", id);
 		try {
 			this.workService.deleteWorkById(id);
 			return ResponseEntity.ok().body("L'oeuvre d'art a été supprimé");
@@ -56,9 +68,9 @@ public class WorkController {
 		}
 	}
 	
-	@RequestMapping(value = "/api/works/import/", method = RequestMethod.POST)
-	public ResponseEntity<?> importWorkFromGallery(@RequestParam("titre") String titre){
-		
+	@PostMapping("/import/{titre}")
+	public ResponseEntity<?> importWorkFromGallery(@PathVariable("titre") String titre){
+		LOGGER.info("POST /api/works/import/{}", titre);
 		try {
 			this.workService.transferFromNoSQLToSQL(titre);
 			return ResponseEntity.ok().body("L'oeuvre d'art '" + titre + "' a été importé");
