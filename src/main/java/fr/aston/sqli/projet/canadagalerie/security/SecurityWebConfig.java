@@ -3,6 +3,8 @@ package fr.aston.sqli.projet.canadagalerie.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,9 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import static fr.aston.sqli.projet.canadagalerie.models.sql.Role.*;
+import static fr.aston.sqli.projet.canadagalerie.security.ExploiterPermission.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 
 	private final PasswordEncoder passWordEncoder;
@@ -27,9 +31,10 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+		http
+		         .csrf().disable()
+		         .authorizeRequests()
 		         .antMatchers("/api/gallery", "/api/gallery/*").permitAll()
-		         .antMatchers("/api/**").hasRole(ADMIN.name())
 		         .anyRequest()
 		         .authenticated()
 		         .and()
@@ -43,19 +48,22 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 		UserDetails madame = User.builder()
 				.username("madame@user.com")
 				.password(passWordEncoder.encode("123"))
-				.roles(ADMIN.name())
+				//.roles(ADMIN.name())
+				.authorities(ADMIN.getGrantedAuthorities())
 				.build();
 
 		UserDetails girl = User.builder()
 				.username("girl@user.com")
 				.password(passWordEncoder.encode("123"))
-				.roles(VISITOR.name())
+				//.roles(VISITOR.name())
+				.authorities(VISITOR.getGrantedAuthorities())
 				.build();
 
 		UserDetails boy = User.builder()
 				.username("boy@user.com")
 				.password(passWordEncoder.encode("123"))
-				.roles(GUIDE.name())
+				//.roles(GUIDE.name())
+				.authorities(GUIDE.getGrantedAuthorities())
 				.build();
 
 		return new InMemoryUserDetailsManager(madame, girl, boy);
