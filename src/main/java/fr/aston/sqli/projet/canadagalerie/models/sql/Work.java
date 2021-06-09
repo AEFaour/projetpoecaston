@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,7 +59,6 @@ public class Work implements Serializable {
 	
 	@Column(name = "dimensions")
 	private String dimensions; 
-	
 	
 	@OneToMany
 	private List<Artist> artists;

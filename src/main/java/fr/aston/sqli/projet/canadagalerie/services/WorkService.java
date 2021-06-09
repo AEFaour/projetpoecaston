@@ -1,5 +1,6 @@
 package fr.aston.sqli.projet.canadagalerie.services;
 
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -9,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import fr.aston.sqli.projet.canadagalerie.controllers.GuidedTourController;
 import fr.aston.sqli.projet.canadagalerie.dao.IArtistRepository;
@@ -21,7 +21,7 @@ import fr.aston.sqli.projet.canadagalerie.models.sql.Work;
 
 @Service
 public class WorkService {
-
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(WorkService.class);
 
 	@Autowired
@@ -64,34 +64,25 @@ public class WorkService {
 
 	}
 
-	@Transactional(rollbackFor = Exception.class)
 	public void transferFromNoSQLToSQL(String titre) {
-
-		List<Work> listWorks = (List<Work>) workRepository.findAll();
+		
+		List<Work>listWorks = (List<Work>) workRepository.findAll();
 
 		Gallery g = galleryRepository.findByTitre(titre).get(0);
-
+		
+	
 		Work w = new Work();
 
 		List<Artist> artists = new ArrayList<Artist>();
 
-		Optional<Artist> opAr = artistRepository.findByNom(g.getArtistes().get(0).getNom());
-		if (opAr.isPresent()) {
-			LOGGER.debug("Artiste {} deja present en base", opAr.get());
-			// L'artiste est dans la base SQL
-			artists.add(opAr.get());
-		} else {
-			Artist ar = new Artist();
-			ar.setNom(g.getArtistes().get(0).getNom());
-			LOGGER.debug("Artiste NON present en base, on l'ajoute");
-			artistRepository.save(ar);
-			
-			
-			artists.add(ar);
-		}
-
-		LOGGER.debug("Artistes {}", artists);
-
+		Artist ar = new Artist();
+		ar.setNom(g.getArtistes().get(0).getNom());
+		artistRepository.save(ar);
+		artists.add(ar);
+		System.out.println(ar.getNom());
+		System.out.println(g.getArtistes().get(0).getNom());
+		System.out.println(artists);
+		
 		System.out.println(listWorks);
 		w.setCode(g.getId());
 		w.setTitre(titre);
@@ -104,7 +95,7 @@ public class WorkService {
 		w.setDateProduction(g.getDateProduction());
 		w.setMateriaux(g.getMateriaux());
 		System.out.println(listWorks.contains(w));
-
+		
 		workRepository.save(w);
 		LOGGER.debug("Tentive échoué de transfère de l'oeuvre d'art {}", titre);
 //		if(((List<Work>) this.workRepository.findAll()).contains(w) == false) {
