@@ -128,8 +128,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>canada-galerie-docker</finalName>
 	</build>
-
-
-
 </project>

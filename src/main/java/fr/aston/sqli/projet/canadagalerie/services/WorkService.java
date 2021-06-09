@@ -2,7 +2,7 @@ package fr.aston.sqli.projet.canadagalerie.services;
 
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.aston.sqli.projet.canadagalerie.controllers.GuidedTourController;
 import fr.aston.sqli.projet.canadagalerie.dao.IArtistRepository;
 import fr.aston.sqli.projet.canadagalerie.dao.IGalleryRepository;
 import fr.aston.sqli.projet.canadagalerie.dao.IWorkRepository;
@@ -66,41 +65,45 @@ public class WorkService {
 
 	public void transferFromNoSQLToSQL(String titre) {
 		
-		List<Work>listWorks = (List<Work>) workRepository.findAll();
-
+		WorkService.LOGGER.debug("transferFromNoSQLToSQL {}", titre);
 		Gallery g = galleryRepository.findByTitre(titre).get(0);
 		
-	
+		Optional<Work> opWork = this.workRepository.findByCode(g.getId());
+		if (opWork.isPresent()) {
+			WorkService.LOGGER.warn("Work '{}' deja present sous l'id {}, on ne fait rien", titre,
+					opWork.get().getId());
+			return;
+		}
+		WorkService.LOGGER.debug("Work '{}' n'est pas present, on ne fait l'import", titre);
 		Work w = new Work();
-
-		List<Artist> artists = new ArrayList<Artist>();
-
-		Artist ar = new Artist();
-		ar.setNom(g.getArtistes().get(0).getNom());
-		artistRepository.save(ar);
-		artists.add(ar);
-		System.out.println(ar.getNom());
-		System.out.println(g.getArtistes().get(0).getNom());
-		System.out.println(artists);
-		
-		System.out.println(listWorks);
 		w.setCode(g.getId());
 		w.setTitre(titre);
 		w.setCollection(g.getCollection());
 		w.setCulture(g.getCulture());
 		w.setDescription(g.getDescription());
 		w.setDimensions(g.getDimensions());
-		w.setArtists(artists);
 		w.setImage(g.getImage());
 		w.setDateProduction(g.getDateProduction());
 		w.setMateriaux(g.getMateriaux());
-		System.out.println(listWorks.contains(w));
-		
-		workRepository.save(w);
-		LOGGER.debug("Tentive échoué de transfère de l'oeuvre d'art {}", titre);
-//		if(((List<Work>) this.workRepository.findAll()).contains(w) == false) {
-//			workRepository.save(w);
-//		}
+
+		List<Artist> artists = new ArrayList<>();
+		final String nomArtiste = g.getArtistes().get(0).getNom();
+		Optional<Artist> opAr = this.artistRepository.findByNom(nomArtiste);
+		if (opAr.isPresent()) {
+			WorkService.LOGGER.debug("Artiste {} deja present en base", opAr.get());
+			artists.add(opAr.get());
+		} else {
+			WorkService.LOGGER.debug("Artiste {} NON present en base, on l'ajoute", nomArtiste);
+			Artist ar = new Artist();
+			ar.setNom(nomArtiste);
+			ar = this.artistRepository.save(ar);
+			artists.add(ar);
+			ar.setWorks(Arrays.asList(new Work[] { w }));
+		}
+		w.setArtists(artists);
+		// On sauvegarde le work
+		this.workRepository.save(w);
+		WorkService.LOGGER.debug("Transfère de l'oeuvre d'art {} - OK", titre);
 
 	}
 }

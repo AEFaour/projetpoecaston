@@ -21,9 +21,6 @@ public class GalleryService {
 	
 	public Gallery  findWorkByTitre(String titre) throws Exception {
 		
-//		List<Gallery> works = galleryRepository.findByTitre(titre);
-//		return Optional.of(works.get(0));
-		
 		Optional<Gallery> resu = Optional.ofNullable(this.galleryRepository.findByTitre(titre).get(0));
 		
 		if(resu.isPresent()) {
