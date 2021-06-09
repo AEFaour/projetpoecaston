@@ -39,7 +39,7 @@ public class ModelBaseSecurityServiceImpl implements IModelBaseSecurityRepositor
 		Optional<Exploiter> exploiter = exploiterRepository.findByEmail(username);
 
 		ModelBaseSecurity modelBaseSecurity = new ModelBaseSecurity(exploiter.get().getEmail(),
-				passWordEncoder.encode(exploiter.get().getPassword()),
+				exploiter.get().getPassword(),
 				exploiter.get().getRole().getGrantedAuthorities(), true, true, true, true);
 		
 		modelBaseSecurities.add(modelBaseSecurity);
