@@ -27,7 +27,7 @@ public class GuidedTourController {
 	private GuidedTourService guidedTourService;
 
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE', 'ROLE_VISITOR')")
 	public ResponseEntity<?> findAllGuidedTours() {
 		GuidedTourController.LOGGER.info("GET /api/guidedtours");
 		try {
@@ -39,7 +39,7 @@ public class GuidedTourController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE', 'ROLE_VISITOR')")
 	public ResponseEntity<?> getGuidedTourById(@PathVariable("id") Long id) {
 		GuidedTourController.LOGGER.info("GET /api/guidedtours/{}", id);
 		try {
