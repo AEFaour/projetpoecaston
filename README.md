@@ -1,3 +1,3 @@
 # PROJECT APP BACKEND
 
-@copyright
+projet de gallerie d'art virtuelle développé en java avec spring security
