@@ -27,7 +27,7 @@ public class GuidedTourController {
 	private GuidedTourService guidedTourService;
 
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE', 'ROLE_VISITOR')")
+	@PreAuthorize("hasAuthority('guidedtour:read')")
 	public ResponseEntity<?> findAllGuidedTours() {
 		GuidedTourController.LOGGER.info("GET /api/guidedtours");
 		try {
@@ -39,7 +39,7 @@ public class GuidedTourController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE', 'ROLE_VISITOR')")
+	@PreAuthorize("hasAuthority('guidedtour:read')")
 	public ResponseEntity<?> getGuidedTourById(@PathVariable("id") Long id) {
 		GuidedTourController.LOGGER.info("GET /api/guidedtours/{}", id);
 		try {
@@ -51,7 +51,7 @@ public class GuidedTourController {
 	}
 
 	@PostMapping
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('guidedtour:write')")
 	public ResponseEntity<?> addOrUpdateGuidedTour(@RequestBody GuidedTour guidedTour) {
 		GuidedTourController.LOGGER.info("POST /api/guidedtours");
 		try {
@@ -64,7 +64,7 @@ public class GuidedTourController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('guidedtour:write')")
 	public ResponseEntity<?> deleteGuidedTour(@PathVariable("id") Long id) throws Exception {
 		GuidedTourController.LOGGER.info("DELETE /api/guidedtours/{}", id);
 		try {

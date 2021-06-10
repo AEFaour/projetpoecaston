@@ -26,7 +26,7 @@ public class AddressController {
 	private AddressService addressService;
 	
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAuthority('address:read')")
 	public ResponseEntity<?> findAllAddresses() {
 		AddressController.LOGGER.info("GET /api/addresses");
 		try {
@@ -38,7 +38,7 @@ public class AddressController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAuthority('address:read')")
 	public ResponseEntity<?> getAddressById(@PathVariable("id") Long id) {
 		AddressController.LOGGER.info("GET /api/addresses/{}", id);
 		try {
@@ -50,7 +50,7 @@ public class AddressController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('address:write')")
 	public ResponseEntity<?> addOrUpdateAddress(@RequestBody Address address) {
 		AddressController.LOGGER.info("POST /api/addresses");
 		try {
@@ -63,7 +63,7 @@ public class AddressController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('address:write')")
 	public ResponseEntity<?> deleteAddress(@PathVariable("id") Long id) throws Exception {
 		AddressController.LOGGER.info("DELETE /api/addresses/{}", id);
 		try {

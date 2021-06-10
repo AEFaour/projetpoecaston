@@ -26,7 +26,7 @@ public class WorkController {
 	private WorkService workService;
 	
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAuthority('work:read')")
 	public ResponseEntity<?> findAllWorks() {
 		WorkController.LOGGER.info("GET /api/works");
 		try {
@@ -38,7 +38,7 @@ public class WorkController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAuthority('work:read')")
 	public ResponseEntity<?> getWorkById(@PathVariable("id") Long id) {
 		WorkController.LOGGER.info("GET /api/works/{}", id);
 		try {
@@ -50,7 +50,7 @@ public class WorkController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('work:write')")
 	public ResponseEntity<?> addOrUpdateWork(@RequestBody Work work) {
 		WorkController.LOGGER.info("POST /api/works");
 		try {
@@ -63,7 +63,7 @@ public class WorkController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('work:write')")
 	public ResponseEntity<?> deleteArtist(@PathVariable("id") Long id) throws Exception{
 		WorkController.LOGGER.info("DELETE /api/works/{}", id);
 		try {
@@ -76,7 +76,7 @@ public class WorkController {
 	}
 	
 	@PostMapping("/import/{titre}")
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('work:write')")
 	public ResponseEntity<?> importWorkFromGallery(@PathVariable("titre") String titre){
 		WorkController.LOGGER.info("POST /api/works/import/{}", titre);
 		try {

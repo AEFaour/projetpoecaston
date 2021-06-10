@@ -27,7 +27,7 @@ public class ArtistController {
 	private ArtistService artistService;
 	
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAuthority('artist:read')")
 	public ResponseEntity<?> findAllArtists() {
 		ArtistController.LOGGER.info("GET /api/artists");
 		try {
@@ -39,7 +39,7 @@ public class ArtistController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GUIDE')")
+	@PreAuthorize("hasAuthority('artist:read')")
 	public ResponseEntity<?> getArtistById(@PathVariable("id") Long id) {
 		ArtistController.LOGGER.info("GET /api/artists/{}", id);
 		try {
@@ -51,7 +51,7 @@ public class ArtistController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('artist:write')")
 	public ResponseEntity<?> addOrUpdateArtist(@RequestBody Artist artist) {
 		ArtistController.LOGGER.info("POST /api/artists");
 		try {
@@ -64,7 +64,7 @@ public class ArtistController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasAuthority('exploiter:write')")
+	@PreAuthorize("hasAuthority('artist:write')")
 	public ResponseEntity<?> deleteArtist(@PathVariable Long id) throws Exception{
 		ArtistController.LOGGER.info("DELETE /api/artists/{}", id);
 		try {

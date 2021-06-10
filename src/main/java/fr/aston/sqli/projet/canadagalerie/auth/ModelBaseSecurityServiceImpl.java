@@ -35,18 +35,11 @@ public class ModelBaseSecurityServiceImpl implements IModelBaseSecurityRepositor
 
 	public List<ModelBaseSecurity> getModelBaseSecurities(String username) {
 		List<ModelBaseSecurity> modelBaseSecurities = Lists.newArrayList();
-
 		Optional<Exploiter> exploiter = exploiterRepository.findByEmail(username);
-
 		ModelBaseSecurity modelBaseSecurity = new ModelBaseSecurity(exploiter.get().getEmail(),
 				exploiter.get().getPassword(),
 				exploiter.get().getRole().getGrantedAuthorities(), true, true, true, true);
-		
 		modelBaseSecurities.add(modelBaseSecurity);
-
-//				new ModelBaseSecurity("madame@user.com", passWordEncoder.encode("123"), ADMIN.getGrantedAuthorities(), true, true, true, true),
-//				new ModelBaseSecurity("girl@user.com", passWordEncoder.encode("123"), VISITOR.getGrantedAuthorities(), true, true, true, true),
-//				new ModelBaseSecurity("boy@user.com", passWordEncoder.encode("123"), GUIDE.getGrantedAuthorities(), true, true, true, true));
-		return modelBaseSecurities;
+        return modelBaseSecurities;
 	}
 }

@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import fr.aston.sqli.projet.canadagalerie.auth.ModelBaseSecurityService;
 import fr.aston.sqli.projet.canadagalerie.jwt.JwtConfig;
@@ -29,8 +31,8 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 
 	private final PasswordEncoder passWordEncoder;
 	private final ModelBaseSecurityService modelBaseSecurityService;
-	 private final SecretKey secretKey;
-	  private final JwtConfig jwtConfig;
+	private final SecretKey secretKey;
+	private final JwtConfig jwtConfig;
 
    
     @Autowired
@@ -54,6 +56,7 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 		         .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernamePwdAuthFilter.class)
 		         .authorizeRequests()
 		         .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+		         //.antMatchers("/login").permitAll() 
 		        // .antMatchers("/api/gallery", "/api/gallery/*").permitAll()
 		         .anyRequest()
 		         .authenticated()
@@ -76,32 +79,15 @@ public class SecurityWebConfig extends WebSecurityConfigurerAdapter {
 		return daoAuthenticationProvider;
 	}
 	
-//	@Override
 //	@Bean
-//	protected UserDetailsService userDetailsService() {
-//
-//		UserDetails madame = User.builder()
-//				.username("madame@user.com")
-//				.password(passWordEncoder.encode("123"))
-//				//.roles(ADMIN.name())
-//				.authorities(ADMIN.getGrantedAuthorities())
-//				.build();
-//
-//		UserDetails girl = User.builder()
-//				.username("girl@user.com")
-//				.password(passWordEncoder.encode("123"))
-//				//.roles(VISITOR.name())
-//				.authorities(VISITOR.getGrantedAuthorities())
-//				.build();
-//
-//		UserDetails boy = User.builder()
-//				.username("boy@user.com")
-//				.password(passWordEncoder.encode("123"))
-//				//.roles(GUIDE.name())
-//				.authorities(GUIDE.getGrantedAuthorities())
-//				.build();
-//
-//		return new InMemoryUserDetailsManager(madame, girl, boy);
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/**").allowedOrigins("*");
+//			}
+//		};
 //	}
+	
 
 }

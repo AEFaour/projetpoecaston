@@ -17,13 +17,41 @@ import static fr.aston.sqli.projet.canadagalerie.security.ExploiterPermission.*;
 @Getter
 public enum Role {
 	ADMIN(
-			1, "Admin", 
+			1,
+			"Admin", 
 			Sets.newHashSet(
-					EXPLOITER_READ, EXPLOITER_WRITE, GUIDESTOUR_READ, GUIDESTOUR_WRITE)),
-	GUIDE(2, "Guide", Sets.newHashSet(
-			EXPLOITER_READ, GUIDESTOUR_READ)),
-	VISITOR(3, "Visteur", Sets.newHashSet());
-	
+					ARTIST_READ, ARTIST_WRITE,
+					ADDRESS_READ, ADDRESS_WRITE,
+					EXPLOITER_READ, EXPLOITER_WRITE,
+					GALLEY_READ, 
+					GUIDEDTOUR_READ, GUIDEDTOUR_WRITE,
+					WORK_READ, WORK_WRITE
+					)
+			),
+	GUIDE(
+			2,
+			"Guide",
+			Sets.newHashSet(
+					ARTIST_READ,
+					ADDRESS_READ, ADDRESS_WRITE,
+					EXPLOITER_READ, 
+					GALLEY_READ,
+					GUIDEDTOUR_READ, GUIDEDTOUR_WRITE,
+					WORK_READ, WORK_WRITE
+			        )
+			),
+	VISITOR(
+			3,
+			"Visteur",
+			Sets.newHashSet(
+					ARTIST_READ, 
+					ADDRESS_READ, ADDRESS_WRITE,
+					EXPLOITER_READ, EXPLOITER_WRITE,
+					GALLEY_READ, 
+					GUIDEDTOUR_READ,
+					WORK_READ, WORK_WRITE
+					)
+			);
 	
 	private final int val;
 	

@@ -26,7 +26,7 @@ public class GalleryController {
 	
 	//@RequestMapping(value = "/api/gallery", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	@GetMapping
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("hasAuthority('gallery:read')")
 	public ResponseEntity<?> getAllWorks()  {
 		GalleryController.LOGGER.info("GET /api/gallery");
 		try {
@@ -38,7 +38,7 @@ public class GalleryController {
 	}
 	
 	@GetMapping("/works/")
-	@PreAuthorize("permitAll()")
+	@PreAuthorize("hasAuthority('gallery:read')")
 	public ResponseEntity<?> findGalleryByTitre(@RequestParam("titre") String titre) {
 		GalleryController.LOGGER.info("GET /api/gallery/works/{}", titre);
 		try {
