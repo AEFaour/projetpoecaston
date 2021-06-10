@@ -9,5 +9,5 @@ import fr.aston.sqli.projet.canadagalerie.models.sql.Artist;
 
 @Repository
 public interface IArtistRepository extends CrudRepository<Artist, Long> {
- public Artist findByNom(String nom); 
+ public Optional<Artist> findByNom(String nom); 
 }

@@ -26,7 +26,7 @@ public class Gallery {
 	@Id
 	private ObjectId _id;
 	@Field(value= "id")
-	private String Id;
+	private String Id_work;
 	@Field(value= "titre")
 	private String titre;
 	@Field(value= "collection")

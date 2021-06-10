@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import fr.aston.sqli.projet.canadagalerie.dao.IArtistRepository;
 import fr.aston.sqli.projet.canadagalerie.exceptions.NotFoundWithSuchParameterException;
-import fr.aston.sqli.projet.canadagalerie.models.sql.Address;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Artist;
 
 @Service

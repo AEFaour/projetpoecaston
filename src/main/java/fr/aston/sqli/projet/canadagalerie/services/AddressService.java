@@ -3,11 +3,9 @@ package fr.aston.sqli.projet.canadagalerie.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import fr.aston.sqli.projet.canadagalerie.dao.IAddressRepository;
 import fr.aston.sqli.projet.canadagalerie.exceptions.NotFoundWithSuchParameterException;
 import fr.aston.sqli.projet.canadagalerie.models.sql.Address;

@@ -1,11 +1,15 @@
 package fr.aston.sqli.projet.canadagalerie.authentication;
 
 import java.util.Collection;
+
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.ToString;
+
+@ToString
 public class ApplicationUser implements UserDetails {
 		
 	private final String username;

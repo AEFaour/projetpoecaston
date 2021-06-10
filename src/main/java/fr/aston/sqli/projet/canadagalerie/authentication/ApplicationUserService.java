@@ -1,6 +1,8 @@
 package fr.aston.sqli.projet.canadagalerie.authentication;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationUserService implements UserDetailsService {
-
+	private static final Logger LOG = LogManager.getLogger();
     private final ApplicationUserDao applicationUserDao;
 
     @Autowired
@@ -21,6 +23,7 @@ public class ApplicationUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    	ApplicationUserService.LOG.debug("UserDetailsService.loadUserByUsername({})", username);
         return applicationUserDao
                 .selectApplicationUserByUsername(username)
                 .orElseThrow(() ->

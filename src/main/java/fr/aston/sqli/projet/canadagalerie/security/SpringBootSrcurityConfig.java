@@ -1,7 +1,8 @@
 package fr.aston.sqli.projet.canadagalerie.security;
 
 import javax.crypto.SecretKey;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,54 +25,50 @@ import static fr.aston.sqli.projet.canadagalerie.security.Category.*;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringBootSrcurityConfig extends WebSecurityConfigurerAdapter {
-	
-		private final PasswordEncoder passwordEncoder;
-	    private final ApplicationUserService applicationUserService;
-	    private final JwtConfig jwtConfig;
-		private final SecretKey secretKey;
 
-	    @Autowired
-	    public SpringBootSrcurityConfig(PasswordEncoder passwordEncoder,
-	    		ApplicationUserService applicationUserService,
-				JwtConfig jwtConfig,
-				SecretKey secretKey) {
-	    	
-			this.passwordEncoder = passwordEncoder;
-			this.applicationUserService = applicationUserService;
-			this.jwtConfig = jwtConfig;
-			this.secretKey = secretKey;
-		}
+	private static final Logger LOG = LogManager.getLogger();
+	private final PasswordEncoder passwordEncoder;
+	private final ApplicationUserService applicationUserService;
+	private final JwtConfig jwtConfig;
+	private final SecretKey secretKey;
 
-	    @Override
-	    protected void configure(HttpSecurity http) throws Exception {
-	        http
-	                .csrf().disable()
-	                .sessionManagement().
-	                	sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-	                .and()
-	                .addFilter(new JwtUsernameAndPasswordAuthentFilter(authenticationManager(), jwtConfig, secretKey))
-	                .addFilterAfter(new JwtTokenVerifierFilter(jwtConfig, secretKey), JwtUsernameAndPasswordAuthentFilter.class)
-	                .authorizeRequests()
-	                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-	                .anyRequest()
-	                .authenticated();
-	             
-	    }
+	@Autowired
+	public SpringBootSrcurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService,
+			JwtConfig jwtConfig, SecretKey secretKey) {
 
+		this.passwordEncoder = passwordEncoder;
+		this.applicationUserService = applicationUserService;
+		this.jwtConfig = jwtConfig;
+		this.secretKey = secretKey;
+	}
 
-		@Override
-	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	        auth.authenticationProvider(daoAuthenticationProvider());
-	    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		SpringBootSrcurityConfig.LOG.debug("SpringSecurityConfigurationSecured - Apply rules");
 
-	    @Bean
-	    public DaoAuthenticationProvider daoAuthenticationProvider() {
-	        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-	        provider.setPasswordEncoder(passwordEncoder);
-	        provider.setUserDetailsService(applicationUserService);
-	        return provider;
-	    }
+		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.addFilter(new JwtUsernameAndPasswordAuthentFilter(authenticationManager(), jwtConfig, secretKey))
+				.addFilterAfter(new JwtTokenVerifierFilter(jwtConfig, secretKey),
+						JwtUsernameAndPasswordAuthentFilter.class)
+				.authorizeRequests().antMatchers("/", "index", "/css/*", "/js/*").permitAll().anyRequest()
+				.authenticated();
+	}
 
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		SpringBootSrcurityConfig.LOG.debug(
+				"SpringBootSrcurityConfig.configure => Linking our authentication provider bellow to spring spring security configuration");
+		auth.authenticationProvider(daoAuthenticationProvider());
+	}
 
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		SpringBootSrcurityConfig.LOG.debug(
+				"SpringBootSrcurityConfig.daoAuthenticationProvider => passing authentication provider parameters");
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(passwordEncoder);
+		provider.setUserDetailsService(applicationUserService);
+		return provider;
+	}
 
-    }
+}

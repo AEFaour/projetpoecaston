@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="warn" strict="true">
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <Layout type="PatternLayout" pattern="[%d{dd/MM/yyyy HH:mm:ss}] - %5p - %90l - %m %n" />
+    </Appender>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="com.banque" level="DEBUG" additivity="false">
+      <AppenderRef ref="STDOUT" />
+    </Logger>
+
+    <!-- Pour voir les requetes Hibernate -->
+    <Logger name="org.hibernate.SQL" level="OFF" additivity="false">
+      <AppenderRef ref="STDOUT" />
+    </Logger>
+
+    <Root level="WARN">
+      <AppenderRef ref="STDOUT" />
+    </Root>
+  </Loggers>
+
+</Configuration>
